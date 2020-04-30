@@ -6,6 +6,7 @@ import io.reactivex.observers.DisposableSingleObserver
 import ir.alirezanazari.domain.entities.MovieEntity
 import ir.alirezanazari.domain.intractors.movie.GetMoviesList
 import ir.alirezanazari.tmdbapi.R
+import ir.alirezanazari.tmdbapi.internal.Logger
 import ir.alirezanazari.tmdbapi.internal.SingleLiveEvent
 import ir.alirezanazari.tmdbapi.ui.BaseViewModel
 
@@ -16,10 +17,10 @@ class MoviesListViewModel(
     var isLoading = false
     val responseListener = SingleLiveEvent<List<MovieEntity>>()
 
-    fun getMovies(page: Int){
-        setLoaderState(true)
+    fun getMovies(page: Int) {
+        if (page == 1) setLoaderState(true)
         isLoading = true
-        useCase.execute(object : DisposableSingleObserver<List<MovieEntity>>(){
+        useCase.execute(object : DisposableSingleObserver<List<MovieEntity>>() {
             override fun onSuccess(resp: List<MovieEntity>) {
                 isLoading = false
                 responseListener.postValue(resp)
@@ -30,9 +31,10 @@ class MoviesListViewModel(
             override fun onError(e: Throwable) {
                 isLoading = false
                 errorListener.postValue(R.string.error_connection)
-                if (page == 1) setLoaderState(false , isEffectRetry = true)
+                if (page == 1) setLoaderState(false, isEffectRetry = true)
+                Logger.showLog(e.message)
             }
 
-        } , page)
+        }, page)
     }
 }

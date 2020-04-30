@@ -11,7 +11,7 @@ data class Result(
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("id")
-    val id: Int,
+    val id: Long,
     @SerializedName("title")
     val title: String,
     @SerializedName("vote_count")

@@ -11,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.alirezanazari.domain.entities.MovieEntity
 import ir.alirezanazari.tmdbapi.R
 import ir.alirezanazari.tmdbapi.internal.Logger
+import ir.alirezanazari.tmdbapi.ui.BaseFragment
 import kotlinx.android.synthetic.main.movies_list_fragment.*
 import org.koin.android.ext.android.inject
 
-class MoviesListFragment : Fragment() {
+class MoviesListFragment : BaseFragment() {
 
     private val viewModel: MoviesListViewModel by inject()
     private val mAdapter: MovieListAdapter by inject()
-    private var mCurrentPage = 0
+    private var mCurrentPage = 1
     private var isEndOfList = false
 
 
@@ -38,10 +39,11 @@ class MoviesListFragment : Fragment() {
     private fun setupMovieList() {
         val lManager = LinearLayoutManager(rvMovies.context)
         rvMovies.apply {
+            layoutManager = lManager
             adapter = mAdapter
         }
 
-        mAdapter.onClick = {id->
+        mAdapter.onClick = { id ->
             id?.let {
                 //open detail fragment
 
@@ -110,14 +112,13 @@ class MoviesListFragment : Fragment() {
         })
     }
 
-
     private fun handleMoviesResponse(items: List<MovieEntity>) {
         if (mCurrentPage != 1) {
             mAdapter.removeLoader()
         }
 
         mAdapter.setItems(items)
-        mCurrentPage ++
+        mCurrentPage++
 
         if (items.isNotEmpty()) {
             mAdapter.addLoader()
@@ -126,4 +127,9 @@ class MoviesListFragment : Fragment() {
         }
 
     }
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
+
 }
