@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TMDB Api</string>
+    <string name="error_connection">Error in receiving data from server.</string>
+    <string name="no_data">No Data.</string>
 </resources>

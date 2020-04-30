@@ -3,12 +3,13 @@ package ir.alirezanazari.domain.intractors
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableSingleObserver
 
 
-abstract class UseCase<T, P>(private val io: Scheduler, private val ui: Scheduler) {
-
-    private var disposable: CompositeDisposable = CompositeDisposable()
+abstract class UseCaseSingle<T, P>(
+    private val io: Scheduler, private val ui: Scheduler
+) : UseCase() {
 
     abstract fun build(param: P): Single<T>
 
@@ -18,14 +19,23 @@ abstract class UseCase<T, P>(private val io: Scheduler, private val ui: Schedule
             .subscribeOn(io)
             .observeOn(ui)
 
-        disposable.add(observable.subscribeWith(observer))
+        addDisposable(observable.subscribeWith(observer))
     }
+
+}
+
+abstract class UseCase{
+
+    private var disposable: CompositeDisposable = CompositeDisposable()
+
+    fun addDisposable(dispose: Disposable) = disposable.add(dispose)
 
     fun clearDisposable() {
         if (!disposable.isDisposed) disposable.dispose()
     }
 
-    fun getDisposable(): CompositeDisposable {
+    fun getDisposable(): CompositeDisposable{
         return disposable
     }
+
 }
