@@ -1,7 +1,7 @@
 package ir.alirezanazari.domain.entities
 
 data class MovieEntity(
-    val id: Int,
+    val id: Long,
     val voteCount: Int,
     val posterPath: String?,
     val title: String,
