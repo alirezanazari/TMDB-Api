@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.alirezanazari.domain.entities.MovieEntity
 import ir.alirezanazari.tmdbapi.R
 import ir.alirezanazari.tmdbapi.internal.Logger
+import ir.alirezanazari.tmdbapi.internal.Navigator
 import ir.alirezanazari.tmdbapi.ui.BaseFragment
 import kotlinx.android.synthetic.main.movies_list_fragment.*
 import org.koin.android.ext.android.inject
@@ -46,7 +47,7 @@ class MoviesListFragment : BaseFragment() {
         mAdapter.onClick = { id ->
             id?.let {
                 //open detail fragment
-
+                Navigator.openMovieDetail(it , activity?.supportFragmentManager)
             }
         }
 

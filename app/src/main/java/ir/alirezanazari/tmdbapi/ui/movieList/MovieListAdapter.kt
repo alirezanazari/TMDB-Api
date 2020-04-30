@@ -82,7 +82,7 @@ class MovieListAdapter(
         fun bind(item: MovieEntity){
             itemView.apply {
                 tvName.text = item.title
-                tvDescription.text = if(item.overview.isEmpty()) "No Description..." else item.overview
+                tvDescription.text = if(item.overview.isNullOrEmpty()) "No Description..." else item.overview
                 tvRate.text = "Rate : ${item.voteAverage} of ${item.voteCount} people"
                 imageLoader.load(ivPoster , "$IMAGE_BASE_URL${item.posterPath}" , R.drawable.place_holder)
                 setOnClickListener { onClick?.invoke(items[adapterPosition]?.id) }

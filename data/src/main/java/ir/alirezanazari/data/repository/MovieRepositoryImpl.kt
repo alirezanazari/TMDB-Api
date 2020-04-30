@@ -14,4 +14,8 @@ class MovieRepositoryImpl(
         return net.getMoviesList(page)
     }
 
+    override fun getMovieDetail(id: Long): Single<MovieEntity> {
+        return net.getMovieDetail(id)
+    }
+
 }

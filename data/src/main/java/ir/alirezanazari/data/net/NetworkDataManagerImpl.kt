@@ -23,4 +23,18 @@ class NetworkDataManagerImpl(
         }
     }
 
+    override fun getMovieDetail(id: Long): Single<MovieEntity> {
+        return api.getMovieDetail(id).map {
+            MovieEntity(
+                it.id ,
+                it.voteCount ,
+                it.posterPath,
+                it.title ,
+                it.voteAverage,
+                it.overview,
+                it.releaseDate
+            )
+        }
+    }
+
 }
